@@ -1,2 +1,14 @@
 # Duolingo-spotify-music-learner
-Alot of folks use music to learn a language but how do we find music we can use to practice the verbs we just learned. This tools goal is to use the recent verbs you learned in duolingo and find music that uses those verbs to help learners learn
+Alot of folks use music to learn a language but how do we find music we can use to practice 
+the verbs we just learned. This tools goal is to use the recent verbs you learned in duolingo 
+and find music that uses those verbs to help learners learn
+
+## Apis needed installed
+### DuoLingo api
+There is no offical duolingo api so what I am using is [duolingo api for python](https://github.com/KartikTalwar/Duolingo#duolingo-api-for-python).
+With this though there is a [known issue](https://github.com/KartikTalwar/Duolingo/issues/128) making it unable to login so I installed [this fork](https://github.com/tier61wro/Duolingo) of the package. Or one can simply do a ```pip install duolingo-api``` and change the package themselves.
+```commandline
+pip install duolingo-api 
+# or
+pip install git+https://github.com/tier61wro/Duolingo.git
+```
