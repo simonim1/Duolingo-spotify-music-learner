@@ -161,3 +161,6 @@ cython_debug/
 
 # My virtual env I made for this product
 duoEnv/*
+
+# Ignoring my secret file that has my client id
+Classes/Secrets/*
