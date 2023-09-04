@@ -19,3 +19,12 @@ for installing this api the dev will have to run this api call.
 ```commandline
 pip install spotipy
 ```
+
+### Genius api 
+I am using the official genius api for python [here](https://lyricsgenius.readthedocs.io/en/master/index.html).
+one will need to create a genius account and add a file called ```Genius.py``` in the ```/secrets``` folder
+to store the token of the application.
+```commandline
+pip install lyricsgenius
+```
+
