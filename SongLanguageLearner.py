@@ -18,6 +18,7 @@ from Classes.Secrets.Globals import SPOTIPY_CLIENT_SECRET, SPOTIPY_CLIENT_ID, SP
 # Consants
 LANGUAGE_LIST = ['Spanish']
 PIC_FOLDER = os.path.join('static', 'images')
+PLAYLIST_ID = '37i9dQZF1DX6ThddIjWuGT' # soon to remove constants
 
 ############################################
 #                 Flask                    #
@@ -61,12 +62,39 @@ def get_duolingo_verbs():
     try:
         # get the token info from the session
         token_info = get_token()
-        duo1 = os.path.join(app.config['UPLOAD_FOLDER'],'Duo_Headphones_Gray.png')
-        return render_template('index.html',duo1=duo1)
     except:
         # if the token info is not found, redirect the user to the login route
         print('User not logged in')
-        return "failed"
+        return redirect("/")
+
+    # Api helpers
+    Duolingo = Duo(DUO_USERNAME, DUO_PASSWORD)
+    Genius = GeniusHelper(TOKEN)
+    spotify  = spotipy.Spotify(auth=token_info['access_token'])
+
+
+    # workflow
+    verbs = Duolingo.get_learned_verbs('Spanish')  # find a way to not hardcode this
+
+    selected_verb = verbs['conocer']  # Make this a selection
+
+    song_list = spotify.playlist_items(PLAYLIST_ID)['items']
+    song_artists_list = []  # list of tuples (song_name,Artists)
+    for song in song_list:
+        song_artist_tup = (song["track"]['name'],song["track"]['artists'][0]['name'])
+        song_artists_list.append(song_artist_tup)
+
+    # searching songs that have the verb
+    returned_songs = []
+    for song in song_artists_list:
+        name = song[0]
+        artist = song[1]
+        if Genius.verb_in_song(song_name=name,artist=artist,verbs=selected_verb):
+            returned_songs.append(song)
+
+    duo1 = os.path.join(app.config['UPLOAD_FOLDER'], 'Duo_Headphones_Gray.png')
+
+    return render_template('index.html', duo1=duo1, verbs=song_artists_list)
 
 ############################################
 #                 helpers                  #
@@ -97,6 +125,7 @@ def create_spotify_oauth():
     )
 
 app.run(debug=True)
+
 
 
 
