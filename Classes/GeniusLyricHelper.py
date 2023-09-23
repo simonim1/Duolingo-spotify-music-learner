@@ -1,8 +1,8 @@
 from lyricsgenius import Genius
-from Secrets.Genius import TOKEN
+
 class GeniusHelper:
-    def __init__(self):
-        self.genius = Genius(TOKEN)
+    def __init__(self, token):
+        self.genius = Genius(token,excluded_terms=["(Remix)", "(Live)"])
 
     ###################################################
     #                 private functions               #
@@ -15,8 +15,14 @@ class GeniusHelper:
         :return: will return the genius song id the idea that the first
         song we find is the correct one
         '''
-        song_list = self.genius.search_songs(song_name, excluded_terms=["(Remix)", "(Live)"])
-        for song in song_list:
+        song_list = self.genius.search_songs(song_name)
+        if song_name == 'Bendita Tu Luz': # this is a bug it is on the genius site but cant seem to find this song
+            print(song_list)
+        for song in song_list['hits']:
+            if song_name == 'Bendita Tu Luz':
+                print('********************************')
+                print(song)
+                print('********************************')
             if song['type'] == 'song':
                 if song['result']['artist_names'] == artist:
                     return song['result']['id']
@@ -27,13 +33,13 @@ class GeniusHelper:
         :param song_id: string of the id
         :return:
         '''
-        self.genius.lyrics(song_id)
+        return self.genius.lyrics(song_id)
 
     ###################################################
     #                 public functions               #
     ###################################################
 
-    def verb_in_song(self, song_name, artist, verb):
+    def verb_in_song(self, song_name, artist, verbs):
         '''
         :param song_name: string of the song name
         :param artist: string of artists name
@@ -41,8 +47,9 @@ class GeniusHelper:
         :return: return true if the verb is found else false
         '''
         song_id = self._get_song_id(song_name,artist)
-        lyrics = self._get_song_lyrics(song_id)
-
-        if verb in lyrics:
-            return True
-        return False
+        if song_id != None:
+            lyrics = self._get_song_lyrics(song_id)
+            for verb in verbs:
+                if verb in lyrics:
+                    return True
+                return False

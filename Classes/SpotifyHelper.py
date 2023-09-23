@@ -6,7 +6,7 @@ from spotipy.oauth2 import *
 
 
 
-class Spotify:
+class SpotifyClient:
     def __init__(self, client_id, client_secret, redirect_uri):
         '''
         :param client_id: your spotify app client id

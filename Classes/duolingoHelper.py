@@ -22,12 +22,12 @@ class Duo:
         abbr = self.duo.get_abbreviation_of(language)
         word_list = self.duo.get_vocabulary(language_abbr=abbr)
         verb_dict = {}
-        for word in word_list:
-            if word['pos'] == 'Verb':
-                infinitive = word['infinitive']
-                if word['normalized_string'][-2:] not in SPANISH_ENDINGS:
-                    if infinitive not in verb_dict:
-                        verb_dict[infinitive] = [word['normalized_string']]
-                    else:
-                        verb_dict[infinitive].append(word['normalized_string'])
+        for word in word_list['vocab_overview']:
+             if word['pos'] == 'Verb':
+                 infinitive = word['infinitive']
+                 if word['normalized_string'][-2:] not in SPANISH_ENDINGS:
+                     if infinitive not in verb_dict:
+                         verb_dict[infinitive] = [word['normalized_string']]
+                     else:
+                         verb_dict[infinitive].append(word['normalized_string'])
         return verb_dict
