@@ -1,8 +1,8 @@
 from lyricsgenius import Genius
-from Secrets.Genius import TOKEN
+
 class GeniusHelper:
-    def __init__(self):
-        self.genius = Genius(TOKEN)
+    def __init__(self, token):
+        self.genius = Genius(token)
 
     ###################################################
     #                 private functions               #
